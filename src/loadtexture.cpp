@@ -19,7 +19,7 @@ GLuint Texture::LoadTexture(const std::string &filename){
     m_texture -> setMinificationFilter(QOpenGLTexture::Linear);
     m_texture -> setMagnificationFilter(QOpenGLTexture::Linear);
 
-    // m_texture -> bind();
+    m_texture -> bind();
 
     GLuint texture = m_texture -> textureId();
 

@@ -1,6 +1,6 @@
 #include "includes/scene.hpp"
 
-void Cuarto::draw_floor(const GLuint *texture, const float &f){
+void Scene::draw_floor(const GLuint *texture, const float &f){
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, *texture);
 
@@ -20,4 +20,20 @@ void Cuarto::draw_floor(const GLuint *texture, const float &f){
         glEnd();
 
     }
+}
+
+
+void Scene::draw_teapot(const GLuint size){
+    glMatrixMode(GL_MODELVIEW);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glLoadIdentity(); 
+    glTranslatef(0.f, 0.f,-4.5f);
+    glColor3f(.8f, .2f, .1f);
+
+    glScalef(1.f,1.f,1.f);
+
+
+    glutSolidTeapot(size);
+
+    glFlush();
 }

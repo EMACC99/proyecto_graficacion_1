@@ -1,5 +1,5 @@
 #include "includes/openglwindow.hpp"
-
+#include "includes/scene.hpp"
 using namespace std::chrono_literals;
 
 Viewport::Viewport(QWidget *parent): QOpenGLWidget(parent){
@@ -25,6 +25,8 @@ Viewport::~Viewport(){
 
 void Viewport::initializeGL(){
     resizeGL(this -> width(), this -> height());
+    glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+    glClearColor(0.0,0.0,0.0,0.0);
 
 }
 
@@ -35,11 +37,10 @@ void Viewport::resizeGL(int w, int h){
     
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(42.f, aspect, .1f, 100.f);
 }
 
 void Viewport::paintGL(){
-
+    Scene::draw_teapot();
 }
 
 

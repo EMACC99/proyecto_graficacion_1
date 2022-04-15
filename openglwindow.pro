@@ -28,7 +28,7 @@ MOC_DIR = tmp/moc/
 OBJECTS_DIR = tmp/obj/
 
 macx {
-	LIBS += -framework OpenGL
+	LIBS += -framework OpenGL -framework GLUT
 
 }
 else{
