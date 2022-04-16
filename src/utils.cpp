@@ -1,4 +1,4 @@
-#include "includes/loadtexture.hpp"
+#include "includes/utils.hpp"
 
 
 GLuint Texture::LoadTexture(const std::string &filename){

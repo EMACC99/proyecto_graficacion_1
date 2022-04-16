@@ -23,11 +23,11 @@ void Scene::draw_floor(const GLuint *texture, const float &f){
 }
 
 
-void Scene::draw_teapot(const GLuint size){
-    glMatrixMode(GL_MODELVIEW);
-    glClear(GL_COLOR_BUFFER_BIT);
-    glLoadIdentity(); 
-    glTranslatef(0.f, 0.f,-4.5f);
+void Scene::draw_teapot(const GLdouble size){
+    glMatrixMode(GL_MODELVIEW);                     // Select The Modelview Matrix
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear The Screen And The Depth Buffer
+    glLoadIdentity();  
+    glTranslatef(0.f, 0.f, 0.f);
     glColor3f(.8f, .2f, .1f);
 
     glScalef(1.f,1.f,1.f);

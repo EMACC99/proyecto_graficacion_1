@@ -19,5 +19,5 @@ public:
     static void draw_innerwall_2(const GLuint *texture);
     static void draw_innerwall_3(const GLuint *texture);
     
-    static void draw_teapot(const GLuint size = 1);
+    static void draw_teapot(const GLdouble size = 0.5);
 };

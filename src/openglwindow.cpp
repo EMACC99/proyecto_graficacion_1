@@ -40,6 +40,8 @@ void Viewport::resizeGL(int w, int h){
 }
 
 void Viewport::paintGL(){
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
     Scene::draw_teapot();
 }
 
