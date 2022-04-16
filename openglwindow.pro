@@ -28,11 +28,11 @@ MOC_DIR = tmp/moc/
 OBJECTS_DIR = tmp/obj/
 
 macx {
-	LIBS += -framework OpenGL -framework GLUT
+	LIBS += -framework OpenGL -framework GLUT -framework Cocoa -lGLEW
 
 }
 else{
-	LIBS += -lGL -lglut -lGLU
+	LIBS += -lGL -lglut -lGLU -lGLEW
 }
 
 win32:QMAKE_CXXFLAGS -=  -Wno-deprecated-declarations
