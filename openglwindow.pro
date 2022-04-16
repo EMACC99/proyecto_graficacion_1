@@ -3,13 +3,13 @@ QT+= core gui opengl widgets
 SOURCES += \
     src/main.cpp\
     src/openglwindow.cpp\
-    src/loadtexture.cpp \
+    src/utils.cpp \
     src/scene.cpp
 
 HEADERS+=\
          includes/openglwindow.hpp\
          includes/gl_debug.hpp\
-         includes/loadtexture.hpp\
+         includes/utils.hpp\
          includes/scene.hpp
 
 QMAKE_CXXFLAGS+= -std=c++17 -g -Wno-deprecated-declarations -Wall -Wpedantic -Wextra -Wno-sign-compare
