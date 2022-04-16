@@ -1,5 +1,7 @@
 #pragma once
 
+#include "includes/scene.hpp"
+
 #include <QMainWindow>
 #include <QString>
 #include <QSurfaceFormat>
@@ -45,5 +47,6 @@ protected:
 private:
     QTimer timer;
     QOpenGLFunctions *gl;
+    Model *modelo ;
 };
 

@@ -1,5 +1,5 @@
 #include "includes/openglwindow.hpp"
-#include "includes/scene.hpp"
+// #include "includes/scene.hpp"
 using namespace std::chrono_literals;
 
 Viewport::Viewport(QWidget *parent): QOpenGLWidget(parent){
@@ -27,7 +27,7 @@ void Viewport::initializeGL(){
     resizeGL(this -> width(), this -> height());
     glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
     glClearColor(0.0,0.0,0.0,0.0);
-
+    std::unique_ptr<Model> modelo (new Model("assets/bunny.obj"));
 }
 
 
@@ -43,6 +43,7 @@ void Viewport::paintGL(){
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     Scene::draw_teapot();
+    modelo -> Draw();
 }
 
 
