@@ -1,6 +1,5 @@
 #pragma once
-#define GL_GLEXT_PROTOTYPES 1
-#define BUFFER_OFFSET(i) ((void*)(i))
+// #define GL_GLEXT_PROTOTYPES 1
 
 #include <vector>
 #include <string>
@@ -8,12 +7,11 @@
     #include <windows.h>
 #endif
 #ifdef __APPLE__
+    #include <OpenGL/gl3.h>
     #include <OpenGL/glu.h>
     #include <GLUT/glut.h>
-    #define glGenVertexArrays glGenVertexArraysAPPLE
-    #define glBindVertexArray glBindVertexArrayAPPLE
-    #define glDeleteVertexArrays glDeleteVertexArraysAPPLE
 #else
+    #include <GL/gl3.h>
     #include <GL/glu.h>
     #include <GL/glut.h>
 #endif

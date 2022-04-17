@@ -1,7 +1,6 @@
 #pragma once
 
 #include "includes/scene.hpp"
-
 #include <QMainWindow>
 #include <QString>
 #include <QSurfaceFormat>

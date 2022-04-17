@@ -7,7 +7,7 @@ Viewport::Viewport(QWidget *parent): QOpenGLWidget(parent){
     this -> setUpdateBehavior(QOpenGLWidget::NoPartialUpdate);
     QSurfaceFormat format;
     format.setProfile(QSurfaceFormat::CompatibilityProfile);
-    format.setVersion(2,1);
+    format.setVersion(3,1);
     this -> setFormat(format);
 
     this -> create();
