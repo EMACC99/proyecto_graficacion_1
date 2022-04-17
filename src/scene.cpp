@@ -61,7 +61,7 @@ Model::Model(const std::string &filename){
 }
 
 void Model::Draw(){
-    glDrawElements(GL_TRIANGLES,3, GL_UNSIGNED_SHORT, BUFFER_OFFSET(0)); //this causes a segfault, need to ask
+    glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, nullptr); //this causes a segfault, need to ask
 }
 // void Model::Draw(){
 //     // glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec4), &vertices[0], GL_STATIC_DRAW);
