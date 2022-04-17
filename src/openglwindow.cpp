@@ -1,5 +1,5 @@
 #include "includes/openglwindow.hpp"
-// #include "includes/scene.hpp"
+
 using namespace std::chrono_literals;
 
 Viewport::Viewport(QWidget *parent): QOpenGLWidget(parent){
@@ -14,6 +14,7 @@ Viewport::Viewport(QWidget *parent): QOpenGLWidget(parent){
 
     connect(&this -> timer, SIGNAL(timeout()), this , SLOT(update()));
     timer.start(100ms);
+    std::unique_ptr<Model>modelo (new Model("bunny.obj"));
 }
 
 Viewport::~Viewport(){
@@ -27,7 +28,10 @@ void Viewport::initializeGL(){
     resizeGL(this -> width(), this -> height());
     glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
     glClearColor(0.0,0.0,0.0,0.0);
-    std::unique_ptr<Model> modelo (new Model("assets/bunny.obj"));
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_COLOR_MATERIAL);
 }
 
 
@@ -37,13 +41,17 @@ void Viewport::resizeGL(int w, int h){
     
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
+    gluPerspective(43, aspect, 0.01, 100.f);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(0,0,5, 0,0,0, 0,1,0);
+
 }
 
 void Viewport::paintGL(){
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     Scene::draw_teapot();
-    modelo -> Draw();
+    // modelo -> Draw();
 }
 
 
