@@ -8,7 +8,6 @@ void Scene::draw_floor(const GLuint *texture, const float &f){
 
     glPushMatrix();
 
-
     for (float a = -10.f; a <= 170.f; a+= 10.f){
         glBegin(GL_QUADS);
             glTexCoord2f(0.0, 0.0);
@@ -22,6 +21,8 @@ void Scene::draw_floor(const GLuint *texture, const float &f){
         glEnd();
 
     }
+
+    glPopMatrix();
 }
 
 
