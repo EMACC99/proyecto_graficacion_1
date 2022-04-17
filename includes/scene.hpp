@@ -1,5 +1,6 @@
 #pragma once
 #define GL_GLEXT_PROTOTYPES 1
+#define BUFFER_OFFSET(i) ((void*)(i))
 
 #include <vector>
 #include <string>
