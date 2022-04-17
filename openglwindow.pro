@@ -1,4 +1,4 @@
-QT+= core gui opengl widgets
+QT+= core gui opengl widgets 
 
 SOURCES += \
     src/main.cpp\
@@ -28,7 +28,7 @@ MOC_DIR = tmp/moc/
 OBJECTS_DIR = tmp/obj/
 
 macx {
-	LIBS += -framework OpenGL -framework GLUT -framework Cocoa -lGLEW
+	LIBS += -framework OpenGL -framework GLUT -framework Cocoa
 
 }
 else{
