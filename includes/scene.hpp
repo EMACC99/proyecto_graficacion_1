@@ -1,17 +1,23 @@
 #pragma once
+#define GL_GLEXT_PROTOTYPES 1
 
+#include <vector>
+#include <string>
 #ifdef _WIN32
     #include <windows.h>
 #endif
 #ifdef __APPLE__
     #include <OpenGL/glu.h>
     #include <GLUT/glut.h>
+    #define glGenVertexArrays glGenVertexArraysAPPLE
+    #define glBindVertexArray glBindVertexArrayAPPLE
+    #define glDeleteVertexArrays glDeleteVertexArraysAPPLE
 #else
     #include <GL/glu.h>
     #include <GL/glut.h>
 #endif
-#include <vector>
 #include <glm/glm.hpp>
+
 class Scene{
 
 public: 
@@ -26,13 +32,15 @@ public:
 
 class Model{
 public:
-    Model(const char *filename);
+    Model(const std::string &filename);
     ~Model() = default;
     void Draw();
 private:
     std::vector<glm::vec4> vertices;
     std::vector<glm::vec3> normals;
     std::vector<GLushort> elements;
-    GLuint attribute_v_coord, vbo_mesh_vertices, attribute_v_normal, vbo_mesh_normals, ibo_mesh_elements;
+    GLuint VAO, VBO, EBO; //vertex array obj, vertex buffer obj, 
+    std::vector<float> vertexData;
+
 
 };
