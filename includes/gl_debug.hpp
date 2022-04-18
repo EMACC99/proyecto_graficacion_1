@@ -4,7 +4,7 @@
     #include <windows.h>
 #endif
 #ifdef __APPLE__
-    #include <OpenGL/gl3.h>
+    #include <OpenGL/gl.h>
 #else
     #include <GL/gl.h>
 #endif
