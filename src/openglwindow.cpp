@@ -2,19 +2,19 @@
 
 using namespace std::chrono_literals;
 
-Viewport::Viewport(QWidget *parent): QOpenGLWidget(parent){
+Viewport::Viewport(QWidget *parent): QOpenGLWidget(parent), modelo("bunny.obj"){
 
     this -> setUpdateBehavior(QOpenGLWidget::NoPartialUpdate);
     QSurfaceFormat format;
     format.setProfile(QSurfaceFormat::CompatibilityProfile);
-    format.setVersion(3,1);
+    format.setVersion(2,1);
     this -> setFormat(format);
 
     this -> create();
 
     connect(&this -> timer, SIGNAL(timeout()), this , SLOT(update()));
     timer.start(100ms);
-    std::unique_ptr<Model>modelo (new Model("bunny.obj"));
+    
 }
 
 Viewport::~Viewport(){
@@ -51,7 +51,7 @@ void Viewport::resizeGL(int w, int h){
 void Viewport::paintGL(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     Scene::draw_teapot();
-    // modelo -> Draw();
+    modelo.Draw();
 }
 
 

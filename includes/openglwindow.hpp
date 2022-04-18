@@ -26,8 +26,6 @@
     #include <GL/glu.h>
 #endif
 
-
-
 class Viewport : public QOpenGLWidget{
     Q_OBJECT
 
@@ -46,6 +44,6 @@ protected:
 private:
     QTimer timer;
     QOpenGLFunctions *gl;
-    Model *modelo ;
+    Model modelo;
 };
 

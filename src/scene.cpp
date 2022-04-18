@@ -39,7 +39,7 @@ void Scene::draw_teapot(const GLdouble size){
 Model::Model(const std::string &filename){
     fs::path path = "assets/" + filename;
     path = fs::absolute(path);
-    // load_obj(path.c_str(), this -> vertices, this -> normals, this -> elements);
+
     objl::Loader loader;
     loader.LoadFile(path.string());
     objl::Mesh mesh = loader.LoadedMeshes.back();
@@ -50,49 +50,32 @@ Model::Model(const std::string &filename){
         vertexData.push_back(mesh.Vertices[vertex].Position.Z);
     }
     
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
+    // glGenVertexArrays(1, &VAO);
+    // glGenBuffers(1, &VBO);
 
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER,VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertexData.size() * sizeof(float), vertexData.data(), GL_STATIC_DRAW);
+    // glBindVertexArray(VAO);
+    // glBindBuffer(GL_ARRAY_BUFFER,VBO);
+    // glBufferData(GL_ARRAY_BUFFER, vertexData.size() * sizeof(float), vertexData.data(), GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
-    glEnableVertexAttribArray(0);
+    // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+    // glEnableVertexAttribArray(0);
 }
 
 void Model::Draw(){
-    glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, nullptr); //this causes a segfault, need to ask
-}
-// void Model::Draw(){
-//     // glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec4), &vertices[0], GL_STATIC_DRAW);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
+
+    glNormalPointer(GL_FLOAT, 3 * sizeof(GLfloat), vertexData.data() + 3);
+    glVertexPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), vertexData.data());
     
-//     glEnableVertexAttribArray(attribute_v_coord);
+    glPushMatrix();
+        glScalef(.5f, .5f, .5f);
+        glColor3f(1,1,1);
+        glDrawArrays(GL_TRIANGLES, 0, vertexData.size() / 3);
+    glPopMatrix();
 
-//     glBindBuffer(GL_ARRAY_BUFFER, vbo_mesh_vertices);
-
-//     glVertexAttribPointer(
-//         attribute_v_coord,
-//         4,
-//         GL_FLOAT,
-//         GL_FALSE,
-//         0,
-//         0
-//     );
-//     glEnableVertexAttribArray(attribute_v_normal);
-//     glBindBuffer(GL_ARRAY_BUFFER, vbo_mesh_normals);
-//     glVertexAttribPointer(
-//         attribute_v_normal, // attribute
-//         3,                  // number of elements per vertex, here (x,y,z)
-//         GL_FLOAT,           // the type of each element
-//         GL_FALSE,           // take our values as-is
-//         0,                  // no extra data between each position
-//         0                   // offset of first element
-//     );
-
-//     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_mesh_elements);
-//     int size;
-//     glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);  
-//     glDrawElements(GL_TRIANGLES, size/sizeof(GLushort), GL_UNSIGNED_SHORT, 0);
-
-// }
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
+    // glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, nullptr); //this causes a segfault, need to ask
+    
+}

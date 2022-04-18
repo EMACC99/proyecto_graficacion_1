@@ -7,7 +7,7 @@
     #include <windows.h>
 #endif
 #ifdef __APPLE__
-    #include <OpenGL/gl3.h>
+    #include <OpenGL/gl.h>
     #include <OpenGL/glu.h>
     #include <GLUT/glut.h>
 #else
@@ -15,6 +15,7 @@
     #include <GL/glu.h>
     #include <GL/glut.h>
 #endif
+// glewExperimental = GL_TRUE;
 #include <glm/glm.hpp>
 
 class Scene{
@@ -35,11 +36,6 @@ public:
     ~Model() = default;
     void Draw();
 private:
-    std::vector<glm::vec4> vertices;
-    std::vector<glm::vec3> normals;
-    std::vector<GLushort> elements;
+    std::vector<GLfloat> vertexData;
     GLuint VAO, VBO, EBO; //vertex array obj, vertex buffer obj, 
-    std::vector<float> vertexData;
-
-
 };
