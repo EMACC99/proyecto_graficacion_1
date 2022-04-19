@@ -5,7 +5,10 @@ GLuint Texture::LoadTexture(const std::string &filename){
     fs::path path = "assets/" + filename;
     path = fs::absolute(path);
 
-    auto m_texture = std::make_unique<QOpenGLTexture>(QImage(path.c_str()));
+    QString path_string;
+    path_string.fromStdString(path.string());
+    
+    auto m_texture = std::make_unique<QOpenGLTexture>(QImage(path_string));
     if (!m_texture -> isCreated()){
         std::cerr << "Failed to create texture" << std::endl;
         exit(EXIT_FAILURE);
