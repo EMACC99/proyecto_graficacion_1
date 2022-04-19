@@ -1,5 +1,5 @@
+#include "includes/gl_debug.hpp"
 #include "includes/openglwindow.hpp"
-
 using namespace std::chrono_literals;
 
 Viewport::Viewport(QWidget *parent): QOpenGLWidget(parent), modelo("bunny.obj"){
@@ -44,7 +44,7 @@ void Viewport::resizeGL(int w, int h){
     gluPerspective(43, aspect, 0.01, 100.f);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(0,0,5, 0,0,0, 0,1,0);
+    gluLookAt(0,0,eyez, 0,0,0, 0,1,0);
 
 }
 
@@ -54,9 +54,13 @@ void Viewport::paintGL(){
     modelo.Draw();
 }
 
+void Viewport::wheelEvent(QWheelEvent *event){
+    this -> eyez += event -> angleDelta().y() / 8;
+    this -> resizeGL(this -> width(), this -> height());
+}
 
 void Viewport::mouseMoveEvent(QMouseEvent *event){
-
+    
 }
 
 void Viewport::keyPressEvent(QKeyEvent *event){
