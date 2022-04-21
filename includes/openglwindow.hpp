@@ -37,7 +37,7 @@ protected:
     virtual void initializeGL();
     virtual void resizeGL(int w, int h);
     virtual void paintGL();
-    virtual void update();
+    // virtual void update();
     
     void wheelEvent(QWheelEvent *event);
     void mouseMoveEvent(QMouseEvent *event);

@@ -26,16 +26,17 @@ Viewport::~Viewport(){
 
 void Viewport::initializeGL(){
     texture = Texture::LoadTexture("texture.bmp");
-    resizeGL(this -> width(), this -> height());
-    // glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
     glClearColor(0.0,0.0,0.0,0.0);
     glClearDepth(1.f);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LEQUAL);
     glEnable(GL_LIGHT0);
     glEnable(GL_LIGHTING);
     glEnable(GL_COLOR_MATERIAL);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
+    resizeGL(this -> width(), this -> height());
 }
 
 
@@ -59,15 +60,10 @@ void Viewport::paintGL(){
     Scene::draw_room(&texture);
 }
 
-
-void Viewport::update(){
-    gluLookAt(0,0,eyez, 0,0,0, 0,1,0);
-}
-
 void Viewport::wheelEvent(QWheelEvent *event){
     this -> eyez += event -> angleDelta().y() / 8;
     // this -> resizeGL(this -> width(), this -> height());
-    this -> update();
+    update();
 }
 
 void Viewport::mouseMoveEvent(QMouseEvent *event){
