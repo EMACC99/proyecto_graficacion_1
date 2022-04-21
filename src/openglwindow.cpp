@@ -1,9 +1,9 @@
 #include "includes/gl_debug.hpp"
 #include "includes/openglwindow.hpp"
+#include "includes/utils.hpp"
 using namespace std::chrono_literals;
 
 Viewport::Viewport(QWidget *parent): QOpenGLWidget(parent), modelo("bunny.obj"){
-
     this -> setUpdateBehavior(QOpenGLWidget::NoPartialUpdate);
     QSurfaceFormat format;
     format.setProfile(QSurfaceFormat::CompatibilityProfile);
@@ -25,13 +25,16 @@ Viewport::~Viewport(){
 }
 
 void Viewport::initializeGL(){
+    texture = Texture::LoadTexture("texture.bmp");
     resizeGL(this -> width(), this -> height());
     glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
     glClearColor(0.0,0.0,0.0,0.0);
+    glShadeModel(GL_SMOOTH);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHT0);
     glEnable(GL_LIGHTING);
     glEnable(GL_COLOR_MATERIAL);
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 }
 
 
@@ -52,11 +55,18 @@ void Viewport::paintGL(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     Scene::draw_teapot();
     modelo.Draw();
+    Scene::draw_room(&texture);
+}
+
+
+void Viewport::update(){
+    gluLookAt(0,0,eyez, 0,0,0, 0,1,0);
 }
 
 void Viewport::wheelEvent(QWheelEvent *event){
     this -> eyez += event -> angleDelta().y() / 8;
-    this -> resizeGL(this -> width(), this -> height());
+    // this -> resizeGL(this -> width(), this -> height());
+    this -> update();
 }
 
 void Viewport::mouseMoveEvent(QMouseEvent *event){

@@ -24,8 +24,8 @@ namespace fs = std::filesystem;
 class Texture{
 
 public:
-    GLuint LoadTexture(const std::string &filename);
-    void FreeTexture(GLuint texture);
+    static GLuint LoadTexture(const std::string &filename);
+    static void FreeTexture(GLuint texture);
 };
 
 

@@ -3,25 +3,42 @@
 #include "OBJ-Loader/Source/OBJ_Loader.h"
 float teapot_rotation = 0.f;
 
-void Scene::draw_floor(const GLuint *texture, const float &f){
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, *texture);
-
+void Scene::draw_room(const GLuint *texture){
+    
     glPushMatrix();
 
-    for (float a = -10.f; a <= 170.f; a+= 10.f){
-        glBegin(GL_QUADS);
-            glTexCoord2f(0.0, 0.0);
-            glVertex3f(0.0 + a, 0.0, 10.0);
-            glTexCoord2f(0.0, f);
-            glVertex3f(0.0 + a, 0.0, 0.0);
-            glTexCoord2f(f, f);
-            glVertex3f(10.0 + a, 0.0, 0.0);
-            glTexCoord2f(f, 0.0);
-            glVertex3f(10.0 + a, 0.0, 10.0);
-        glEnd();
+        glTranslatef(0,0,-1);
 
-    }
+        glEnable(GL_TEXTURE_2D);
+            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glBindTexture(GL_TEXTURE_2D, *texture);
+
+        glBegin(GL_TRIANGLES);
+
+            glNormal3f(0.f, 1.f, 0.f);
+
+            glTexCoord2f(0.f, 1.f);
+            glVertex3f(1.f, 1.f, -1.f);
+
+            glTexCoord2f(0.f, 0.f);
+            glVertex3f(-1.f, 1.f, -1.f);
+
+            glTexCoord2f(1.f, 0.f);
+            glVertex3f(-1.f, 1.f, 1.f);
+
+            glTexCoord2f(0.f, 1.f);
+            glVertex3f(1.f, 1.f, 1.f);
+
+            glBindTexture(GL_TEXTURE_2D, *texture);
+            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+        glEnd();
 
     glPopMatrix();
 }

@@ -37,7 +37,8 @@ protected:
     virtual void initializeGL();
     virtual void resizeGL(int w, int h);
     virtual void paintGL();
-
+    virtual void update();
+    
     void wheelEvent(QWheelEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
@@ -47,5 +48,6 @@ private:
     QOpenGLFunctions *gl;
     Model modelo;
     GLdouble eyez = 5;
+    GLuint texture;
 };
 

@@ -1,14 +1,11 @@
 #include "includes/utils.hpp"
-
+#include "includes/gl_debug.hpp"
 
 GLuint Texture::LoadTexture(const std::string &filename){
     fs::path path = "assets/" + filename;
     path = fs::absolute(path);
-
-    QString path_string;
-    path_string.fromStdString(path.string());
     
-    auto m_texture = std::make_unique<QOpenGLTexture>(QImage(path_string));
+    auto m_texture = std::make_unique<QOpenGLTexture>(QImage(path.c_str()));
     if (!m_texture -> isCreated()){
         std::cerr << "Failed to create texture" << std::endl;
         exit(EXIT_FAILURE);
@@ -21,7 +18,7 @@ GLuint Texture::LoadTexture(const std::string &filename){
     m_texture -> setMinificationFilter(QOpenGLTexture::Linear);
     m_texture -> setMagnificationFilter(QOpenGLTexture::Linear);
 
-    m_texture -> bind();
+    // m_texture -> bind();
 
     GLuint texture = m_texture -> textureId();
 
