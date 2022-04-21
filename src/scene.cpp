@@ -6,9 +6,10 @@ float teapot_rotation = 0.f;
 void Scene::draw_room(const GLuint *texture){
     
     glPushMatrix();
-        glTranslatef(-.5f,0,0);
-        glRotatef(20, 0,1 ,0);
-        glutWireCube(4);
+        glTranslatef(0.f,0,-.2f);
+        // glRotatef(20, 0,1 ,0);
+        glScalef(1.7f, 1.7f, 1.7f);
+        // glutWireCube(4);
         // glEnable(GL_TEXTURE_2D);
         //     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
         //     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -17,15 +18,43 @@ void Scene::draw_room(const GLuint *texture){
         //     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         //     glBindTexture(GL_TEXTURE_2D, *texture);
 
-        // glBegin(GL_QUADS);
+        glBegin(GL_QUADS);
+            //top
+            glColor3f(  1.f,  1.f,  0.f);
+            glVertex3f( 1.0f, 1.0f,-1.0f);
+            glVertex3f(-1.0f, 1.0f,-1.0f);
+            glVertex3f(-1.0f, 1.0f, 1.0f);
+            glVertex3f( 1.0f, 1.0f, 1.0f);
 
-        //     glColor3f(  1.f,  0.5f, 0.f);
-        //     glVertex3f( 1.f,  1.0f, 1.f);
-        //     glVertex3f(-1.f,  1.0f, 1.f);
-        //     glVertex3f(-1.f, -1.0f, 1.f);
-        //     glVertex3f( 1.f, -1.0f, 1.f);
+            //back
+            glColor3f(  1.f,  0.5f,  0.f);
+            glVertex3f( 1.f,  1.0f, -1.f);
+            glVertex3f(-1.f,  1.0f, -1.f);
+            glVertex3f(-1.f, -1.0f, -1.f);
+            glVertex3f( 1.f, -1.0f, -1.f);
 
-        // glEnd();
+            //floor
+            glColor3f(  .5f,  1.f,  0.f);
+            glVertex3f( 1.0f,-1.0f, 1.0f);
+            glVertex3f(-1.0f,-1.0f, 1.0f);
+            glVertex3f(-1.0f,-1.0f,-1.0f);
+            glVertex3f( 1.0f,-1.0f,-1.0f);
+            
+            //left
+            glColor3f(  .5f,  1.f, 1.f);  
+            glVertex3f(-1.0f, 1.0f, 1.0f);
+            glVertex3f(-1.0f, 1.0f,-1.0f);
+            glVertex3f(-1.0f,-1.0f,-1.0f);
+            glVertex3f(-1.0f,-1.0f, 1.0f);
+
+            //right
+            glColor3f(  0.f,  0.5f, 1.f);
+            glVertex3f( 1.0f, 1.0f,-1.0f);
+            glVertex3f( 1.0f, 1.0f, 1.0f);
+            glVertex3f( 1.0f,-1.0f, 1.0f);
+            glVertex3f( 1.0f,-1.0f,-1.0f);
+        
+        glEnd();
 
     glPopMatrix();
 }
@@ -37,7 +66,7 @@ void Scene::draw_teapot(const GLdouble size){
         glTranslatef(0.7f, 0.f, 0.f);
         glColor3f(1.f, .6f, 0.f);
         glRotatef(teapot_rotation, 1, 1, 1);
-        glutWireTeapot(size);
+        glutSolidTeapot(size);
     glPopMatrix();
 }
 
@@ -55,6 +84,9 @@ Model::Model(const std::string &filename){
         vertexData.push_back(mesh.Vertices[vertex].Position.X);
         vertexData.push_back(mesh.Vertices[vertex].Position.Y);
         vertexData.push_back(mesh.Vertices[vertex].Position.Z);
+        vertexData.push_back(mesh.Vertices[vertex].Normal.X);
+        vertexData.push_back(mesh.Vertices[vertex].Normal.Y);
+        vertexData.push_back(mesh.Vertices[vertex].Normal.Z);
     }
     
     // glGenVertexArrays(1, &VAO);
@@ -72,14 +104,14 @@ void Model::Draw(){
     glEnableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_VERTEX_ARRAY);
 
-    glNormalPointer(GL_FLOAT, 3 * sizeof(GLfloat), vertexData.data() + 3);
-    glVertexPointer(3, GL_FLOAT, 3 * sizeof(GLfloat), vertexData.data());
+    glNormalPointer(GL_FLOAT, 6 * sizeof(GLfloat), vertexData.data() + 3);
+    glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), vertexData.data());
     
     glPushMatrix();
-        glScalef(.5f, .5f, .5f);
+        glScalef(.3f, .3f, .3f);
         glColor3f(1,1,1);
         glRotatef(rotation, 1,1,1);
-        glDrawArrays(GL_TRIANGLES, 0, vertexData.size() / 3);
+        glDrawArrays(GL_TRIANGLES, 0, vertexData.size() / 6);
     glPopMatrix();
 
     glDisableClientState(GL_VERTEX_ARRAY);
