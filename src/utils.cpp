@@ -12,17 +12,15 @@ GLuint Texture::LoadTexture(const std::string &filename){
     }
 
 
-    m_texture -> setWrapMode(QOpenGLTexture::DirectionS, QOpenGLTexture::Repeat);
-    m_texture -> setWrapMode(QOpenGLTexture::DirectionT, QOpenGLTexture::Repeat);
+    // m_texture -> setWrapMode(QOpenGLTexture::DirectionS, QOpenGLTexture::Repeat);
+    // m_texture -> setWrapMode(QOpenGLTexture::DirectionT, QOpenGLTexture::Repeat);
 
-    m_texture -> setMinificationFilter(QOpenGLTexture::Linear);
-    m_texture -> setMagnificationFilter(QOpenGLTexture::Linear);
+    // m_texture -> setMinificationFilter(QOpenGLTexture::Linear);
+    // m_texture -> setMagnificationFilter(QOpenGLTexture::Linear);
 
     // m_texture -> bind();
 
-    GLuint texture = m_texture -> textureId();
-
-    return texture;
+    return m_texture -> textureId();
 
 }
 

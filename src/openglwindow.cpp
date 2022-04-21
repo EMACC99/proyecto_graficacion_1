@@ -55,6 +55,8 @@ void Viewport::resizeGL(int w, int h){
 
 void Viewport::paintGL(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    gluLookAt(0,0,eyez, 0,0,0,  0,1,0);
     Scene::draw_teapot();
     modelo.Draw();
     Scene::draw_room(&texture);
