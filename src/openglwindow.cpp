@@ -27,8 +27,9 @@ Viewport::~Viewport(){
 void Viewport::initializeGL(){
     texture = Texture::LoadTexture("texture.bmp");
     resizeGL(this -> width(), this -> height());
-    glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+    // glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
     glClearColor(0.0,0.0,0.0,0.0);
+    glClearDepth(1.f);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHT0);

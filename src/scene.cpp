@@ -6,39 +6,26 @@ float teapot_rotation = 0.f;
 void Scene::draw_room(const GLuint *texture){
     
     glPushMatrix();
+        glTranslatef(-.5f,0,0);
+        glRotatef(20, 0,1 ,0);
+        glutWireCube(4);
+        // glEnable(GL_TEXTURE_2D);
+        //     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+        //     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        //     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+        //     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        //     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        //     glBindTexture(GL_TEXTURE_2D, *texture);
 
-        glTranslatef(0,0,-1);
+        // glBegin(GL_QUADS);
 
-        glEnable(GL_TEXTURE_2D);
-            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glBindTexture(GL_TEXTURE_2D, *texture);
+        //     glColor3f(  1.f,  0.5f, 0.f);
+        //     glVertex3f( 1.f,  1.0f, 1.f);
+        //     glVertex3f(-1.f,  1.0f, 1.f);
+        //     glVertex3f(-1.f, -1.0f, 1.f);
+        //     glVertex3f( 1.f, -1.0f, 1.f);
 
-        glBegin(GL_TRIANGLES);
-
-            glNormal3f(0.f, 1.f, 0.f);
-
-            glTexCoord2f(0.f, 1.f);
-            glVertex3f(1.f, 1.f, -1.f);
-
-            glTexCoord2f(0.f, 0.f);
-            glVertex3f(-1.f, 1.f, -1.f);
-
-            glTexCoord2f(1.f, 0.f);
-            glVertex3f(-1.f, 1.f, 1.f);
-
-            glTexCoord2f(0.f, 1.f);
-            glVertex3f(1.f, 1.f, 1.f);
-
-            glBindTexture(GL_TEXTURE_2D, *texture);
-            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-
-        glEnd();
+        // glEnd();
 
     glPopMatrix();
 }
@@ -50,7 +37,7 @@ void Scene::draw_teapot(const GLdouble size){
         glTranslatef(0.7f, 0.f, 0.f);
         glColor3f(1.f, .6f, 0.f);
         glRotatef(teapot_rotation, 1, 1, 1);
-        glutSolidTeapot(size);
+        glutWireTeapot(size);
     glPopMatrix();
 }
 
