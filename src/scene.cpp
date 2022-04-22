@@ -17,7 +17,7 @@ void Scene::draw_room(const GLuint *texture){
 
         glBegin(GL_QUADS);
             //top
-            // glColor3f(  1.f,  1.f,  0.f);
+            glColor3f(  1.f,  1.f,  0.f);
             glTexCoord2f(0.0f,1.0f);
             glVertex3f( 1.0f, 1.0f,-1.0f);
             glTexCoord2f(0.0f,0.0f);
@@ -28,8 +28,8 @@ void Scene::draw_room(const GLuint *texture){
             glVertex3f( 1.0f, 1.0f, 1.0f);
 
             //back
-            // glColor3f(  1.f,  0.5f,  0.f);
 
+            glColor3f(  .5f,  1.f,  0.f);
             glTexCoord2f(1.0f,0.0f);
             glVertex3f( 1.f,  1.0f, -1.f);
             glTexCoord2f(1.0f,1.0f);
@@ -38,7 +38,7 @@ void Scene::draw_room(const GLuint *texture){
             glVertex3f( 1.f, -1.0f, -1.f);
 
             //floor
-            glColor3f(  .5f,  1.f,  0.f);
+            glColor3f(  1.f,  0.5f,  0.f);
             glTexCoord2f(0.0f,0.0f);
             glVertex3f( 1.0f,-1.0f, 1.0f);
             glTexCoord2f(1.0f,0.0f);
@@ -72,12 +72,20 @@ void Scene::draw_room(const GLuint *texture){
 
 void Scene::draw_teapot(const GLuint *texture, const GLdouble &size){
     teapot_rotation += rotating_factor;
-    glBindTexture(GL_TEXTURE_2D, *texture);
     glPushMatrix();
+        glEnable(GL_TEXTURE_2D);
+        glEnable(GL_TEXTURE_GEN_S);
+        glEnable(GL_TEXTURE_GEN_T);
+        glBindTexture(GL_TEXTURE_2D, *texture);
+        glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+        glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
         glTranslatef(0.7f, 0.f, 0.f);
-        // glColor3f(1.f, .6f, 0.f);
+        glColor3f(1.f, .6f, 0.f);
         glRotatef(teapot_rotation, 1, 1, 1);
         glutSolidTeapot(size);
+        glDisable(GL_TEXTURE_GEN_S);
+        glDisable(GL_TEXTURE_GEN_T);
+        glDisable(GL_TEXTURE_2D);
     glPopMatrix();
 }
 
@@ -127,11 +135,17 @@ void Model::Draw(){
     
     glPushMatrix();
         glEnable(GL_TEXTURE_2D);
+        glEnable(GL_TEXTURE_GEN_S);
+        glEnable(GL_TEXTURE_GEN_T);
         glBindTexture(GL_TEXTURE_2D, texture);
+        glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+        glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
         glScalef(.3f, .3f, .3f);
         glColor3f(1,1,1);
         glRotatef(rotation, 1,1,1);
         glDrawArrays(GL_TRIANGLES, 0, vertexData.size() / 6);
+        glDisable(GL_TEXTURE_GEN_S);
+        glDisable(GL_TEXTURE_GEN_T);
         glDisable(GL_TEXTURE_2D);
     glPopMatrix();
 
