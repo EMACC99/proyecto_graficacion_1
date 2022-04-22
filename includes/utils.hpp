@@ -25,8 +25,4 @@ class Texture{
 
 public:
     static GLuint LoadTexture(const std::string &filename);
-    static void FreeTexture(GLuint texture);
 };
-
-
-// void load_obj(const char *filename, std::vector<glm::vec4> &vertices, std::vector<glm::vec3> &normals, std::vector<GLushort> &elements);

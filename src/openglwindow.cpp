@@ -13,8 +13,11 @@ Viewport::Viewport(QWidget *parent): QOpenGLWidget(parent), modelo("bunny.obj"){
     this -> create();
 
     LightOn = true;
+    wall_textrue = Texture::LoadTexture("texture.bmp");
     connect(&this -> timer, SIGNAL(timeout()), this , SLOT(update()));
     timer.start(100ms);
+
+    
     
 }
 
@@ -26,7 +29,6 @@ Viewport::~Viewport(){
 }
 
 void Viewport::initializeGL(){
-    texture = Texture::LoadTexture("texture.bmp");
 
     GLfloat LightAmbient[]= { 0.5f, 0.5f, 0.5f, 1.0f };
     GLfloat LightPosition[]= { 2.0f, 0.0f, 2.0f, 1.0f };
@@ -45,13 +47,6 @@ void Viewport::initializeGL(){
 
     resizeGL(this -> width(), this -> height());
     
-    glGenTextures(1, &texture);
-    glEnable(GL_TEXTURE_2D);
-        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
 
@@ -78,13 +73,15 @@ void Viewport::paintGL(){
     else if(!LightOn)
         glDisable(GL_LIGHT0);
     
-    Scene::draw_teapot();
+    glEnable(GL_TEXTURE_2D);
+    Scene::draw_teapot(&wall_textrue);
     modelo.Draw();
-    Scene::draw_room(&texture);
+    Scene::draw_room(&wall_textrue);
+    glDisable(GL_TEXTURE_2D);
 }
 
 void Viewport::wheelEvent(QWheelEvent *event){
-    this -> eyez += event -> angleDelta().y() / 8;
+    this -> eyez -= event -> angleDelta().y() / 100;
     // this -> resizeGL(this -> width(), this -> height());
     update();
 }

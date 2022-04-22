@@ -48,7 +48,7 @@ private:
     QOpenGLFunctions *gl;
     Model modelo;
     GLdouble eyez = 5;
-    GLuint texture;
+    GLuint wall_textrue;
     bool LightOn;
 };
 

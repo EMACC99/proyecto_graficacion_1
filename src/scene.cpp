@@ -6,17 +6,19 @@ float teapot_rotation = 0.f;
 void Scene::draw_room(const GLuint *texture){
     
     glPushMatrix();
+        glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
         glTranslatef(0.f,0,-.2f);
         // glRotatef(20, 0,1 ,0);
         glScalef(1.7f, 1.7f, 1.7f);
         // glutWireCube(4);
 
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, *texture);
 
         glBegin(GL_QUADS);
-            glBindTexture(GL_TEXTURE_2D, *texture);
             //top
+            // glColor3f(  1.f,  1.f,  0.f);
             glTexCoord2f(0.0f,1.0f);
-            glColor3f(  1.f,  1.f,  0.f);
             glVertex3f( 1.0f, 1.0f,-1.0f);
             glTexCoord2f(0.0f,0.0f);
             glVertex3f(-1.0f, 1.0f,-1.0f);
@@ -26,17 +28,24 @@ void Scene::draw_room(const GLuint *texture){
             glVertex3f( 1.0f, 1.0f, 1.0f);
 
             //back
-            glColor3f(  1.f,  0.5f,  0.f);
+            // glColor3f(  1.f,  0.5f,  0.f);
+
+            glTexCoord2f(1.0f,0.0f);
             glVertex3f( 1.f,  1.0f, -1.f);
+            glTexCoord2f(1.0f,1.0f);
             glVertex3f(-1.f,  1.0f, -1.f);
             glVertex3f(-1.f, -1.0f, -1.f);
             glVertex3f( 1.f, -1.0f, -1.f);
 
             //floor
             glColor3f(  .5f,  1.f,  0.f);
+            glTexCoord2f(0.0f,0.0f);
             glVertex3f( 1.0f,-1.0f, 1.0f);
+            glTexCoord2f(1.0f,0.0f);
             glVertex3f(-1.0f,-1.0f, 1.0f);
+            glTexCoord2f(1.5f,0.0f);
             glVertex3f(-1.0f,-1.0f,-1.0f);
+            glTexCoord2f(1.5f,1.5f);
             glVertex3f( 1.0f,-1.0f,-1.0f);
             
             //left
@@ -52,18 +61,21 @@ void Scene::draw_room(const GLuint *texture){
             glVertex3f( 1.0f, 1.0f, 1.0f);
             glVertex3f( 1.0f,-1.0f, 1.0f);
             glVertex3f( 1.0f,-1.0f,-1.0f);
-        
+
         glEnd();
+
+        glDisable(GL_TEXTURE_2D);
 
     glPopMatrix();
 }
 
 
-void Scene::draw_teapot(const GLdouble size){
+void Scene::draw_teapot(const GLuint *texture, const GLdouble &size){
     teapot_rotation += rotating_factor;
+    glBindTexture(GL_TEXTURE_2D, *texture);
     glPushMatrix();
         glTranslatef(0.7f, 0.f, 0.f);
-        glColor3f(1.f, .6f, 0.f);
+        // glColor3f(1.f, .6f, 0.f);
         glRotatef(teapot_rotation, 1, 1, 1);
         glutSolidTeapot(size);
     glPopMatrix();
@@ -87,6 +99,8 @@ Model::Model(const std::string &filename){
         vertexData.push_back(mesh.Vertices[vertex].Normal.Y);
         vertexData.push_back(mesh.Vertices[vertex].Normal.Z);
     }
+
+    texture = Texture::LoadTexture("fur.jpg");
     
     // glGenVertexArrays(1, &VAO);
     // glGenBuffers(1, &VBO);
@@ -99,6 +113,11 @@ Model::Model(const std::string &filename){
     // glEnableVertexAttribArray(0);
 }
 
+Model::~Model(){
+    if (texture != 0)
+        glDeleteTextures(1, &texture);
+}
+
 void Model::Draw(){
     glEnableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -107,10 +126,13 @@ void Model::Draw(){
     glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), vertexData.data());
     
     glPushMatrix();
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, texture);
         glScalef(.3f, .3f, .3f);
         glColor3f(1,1,1);
         glRotatef(rotation, 1,1,1);
         glDrawArrays(GL_TRIANGLES, 0, vertexData.size() / 6);
+        glDisable(GL_TEXTURE_2D);
     glPopMatrix();
 
     glDisableClientState(GL_VERTEX_ARRAY);

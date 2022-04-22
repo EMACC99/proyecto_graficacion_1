@@ -1,64 +1,32 @@
 #include "includes/utils.hpp"
 #include "includes/gl_debug.hpp"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb/stb_image.h"
+
 GLuint Texture::LoadTexture(const std::string &filename){
     fs::path path = "assets/" + filename;
     path = fs::absolute(path);
-    
-    auto m_texture = std::make_unique<QOpenGLTexture>(QImage(path.c_str()));
-    if (!m_texture -> isCreated()){
-        std::cerr << "Failed to create texture" << std::endl;
+
+    GLuint texture;
+    int width, height, nrChannels;
+    unsigned char *data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
+
+    if (data){
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        stbi_image_free(data);
+        return texture;
+    }
+    else{
+        std::cerr << "Failed to load texture" << std::endl;
+        stbi_image_free(data);
         exit(EXIT_FAILURE);
     }
-
-
-    // m_texture -> setWrapMode(QOpenGLTexture::DirectionS, QOpenGLTexture::Repeat);
-    // m_texture -> setWrapMode(QOpenGLTexture::DirectionT, QOpenGLTexture::Repeat);
-
-    // m_texture -> setMinificationFilter(QOpenGLTexture::Linear);
-    // m_texture -> setMagnificationFilter(QOpenGLTexture::Linear);
-
-    // m_texture -> bind();
-
-    return m_texture -> textureId();
-
 }
-
-// void load_obj(const char* filename, std::vector<glm::vec4> &vertices, std::vector<glm::vec3> &normals, std::vector<GLushort> &elements)
-// {
-//     std::ifstream in(filename, std::ios::in);
-//     if (!in){
-//         std::cerr << "Cannot open " << filename << std::endl;
-//         exit(EXIT_FAILURE);
-//     }
-
-//     std::string line;
-//     while (getline(in, line)){
-//         if (line.substr(0,2) == "v ")
-//         {
-//             std::istringstream s(line.substr(2));
-//             glm::vec4 v; s >> v.x; s >> v.y; s >> v.z; v.w = 1.0f;
-//             vertices.push_back(v);
-//         }
-//         else if (line.substr(0,2) == "f "){
-//             std::istringstream s(line.substr(2));
-//             GLushort a,b,c;
-//             s >> a; s >> b; s >> c;
-//             a--; b--; c--;
-//            elements.push_back(a);
-//            elements.push_back(b);
-//            elements.push_back(c);
-//         }
-//     }
-
-//     normals.resize(vertices.size(), glm::vec3(0.0, 0.0, 0.0));
-//     for (unsigned long i = 0; i < elements.size(); i+=3){
-//         GLushort ia = elements[i];
-//         GLushort ib = elements[i+1];
-//         GLushort ic = elements[i+2];
-//         glm::vec3 normal = glm::normalize(glm::cross(
-//         glm::vec3(vertices[ib]) - glm::vec3(vertices[ia]),
-//         glm::vec3(vertices[ic]) - glm::vec3(vertices[ia])));
-//         normals[ia] = normals[ib] = normals[ic] = normal;
-//     }
-// }
