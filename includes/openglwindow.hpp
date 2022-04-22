@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <chrono>
 #include <string>
+#include <unordered_map>
 
 #ifdef _WIN32
     #include <windows.h>
@@ -37,6 +38,7 @@ protected:
     virtual void initializeGL();
     virtual void resizeGL(int w, int h);
     virtual void paintGL();
+    virtual void initTextures();
     // virtual void update();
     
     void wheelEvent(QWheelEvent *event);
@@ -48,7 +50,7 @@ private:
     QOpenGLFunctions *gl;
     Model modelo;
     GLdouble eyez = 5;
-    GLuint wall_textrue;
+    std::unordered_map<std::string ,GLuint> textureID;
     bool LightOn;
 };
 

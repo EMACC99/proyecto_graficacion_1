@@ -13,12 +13,8 @@ Viewport::Viewport(QWidget *parent): QOpenGLWidget(parent), modelo("bunny.obj"){
     this -> create();
 
     LightOn = true;
-    wall_textrue = Texture::LoadTexture("texture.bmp");
     connect(&this -> timer, SIGNAL(timeout()), this , SLOT(update()));
     timer.start(100ms);
-
-    
-    
 }
 
 Viewport::~Viewport(){
@@ -44,6 +40,7 @@ void Viewport::initializeGL(){
     glEnable(GL_LIGHTING);
     glEnable(GL_COLOR_MATERIAL);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+    initTextures();
 
     resizeGL(this -> width(), this -> height());
     
@@ -67,17 +64,26 @@ void Viewport::paintGL(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     gluLookAt(0,0,eyez, 0,0,0,  0,1,0);
-    
     if (LightOn && !glIsEnabled(GL_LIGHT0))
         glEnable(GL_LIGHT0);
     else if(!LightOn)
         glDisable(GL_LIGHT0);
     
-    glEnable(GL_TEXTURE_2D);
-    Scene::draw_teapot(&wall_textrue);
+    
+    Scene::draw_teapot();
+
+    glEnable(GL_TEXTURE_GEN_S);
+    glEnable(GL_TEXTURE_GEN_T);
+    glBindTexture(GL_TEXTURE_2D, textureID.at("fur"));
     modelo.Draw();
-    Scene::draw_room(&wall_textrue);
-    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_TEXTURE_GEN_S);
+    glDisable(GL_TEXTURE_GEN_T);
+   
+   
+    glBindTexture(GL_TEXTURE_2D, textureID.at("wall"));
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+    Scene::draw_room();
 }
 
 void Viewport::wheelEvent(QWheelEvent *event){
@@ -98,5 +104,31 @@ void Viewport::keyPressEvent(QKeyEvent *event){
     
     default:
         break;
+    }
+}
+
+void Viewport::initTextures(){
+    glEnable(GL_TEXTURE_2D);
+
+    int n = 2;
+    std::vector<std::string> files {"fur.jpg", "texture.bmp"};
+
+    std::string texture_names[] = {"fur", "wall"};
+
+    std::vector<GLuint> IDS(n);
+
+    glGenTextures(n, IDS.data());
+    for (int i = 0; i < n; ++i){
+        textureID[texture_names[i]] = IDS[i];
+        glBindTexture(GL_TEXTURE_2D, IDS[i]);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        auto [textureData, width, height] = Texture::LoadTextureFile(files[i]);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, textureData);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        Texture::FreeTextureData(textureData);
+        
     }
 }

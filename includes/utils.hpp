@@ -24,5 +24,6 @@ namespace fs = std::filesystem;
 class Texture{
 
 public:
-    static GLuint LoadTexture(const std::string &filename);
+    static std::tuple<unsigned char *, int, int> LoadTextureFile(const std::string &filename);
+    static void FreeTextureData(unsigned char *data);
 };

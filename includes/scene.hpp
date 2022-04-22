@@ -21,8 +21,8 @@ constexpr float rotating_factor = 0.5f;
 class Scene{
 
 public: 
-    static void draw_room(const GLuint *texture);
-    static void draw_teapot(const GLuint *texture, const GLdouble &size = 0.5);
+    static void draw_room();
+    static void draw_teapot(const GLdouble &size = 0.5);
 };
 
 class Model{

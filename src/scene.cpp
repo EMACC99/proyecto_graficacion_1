@@ -3,7 +3,7 @@
 #include "OBJ-Loader/Source/OBJ_Loader.h"
 float teapot_rotation = 0.f;
 
-void Scene::draw_room(const GLuint *texture){
+void Scene::draw_room(){
     
     glPushMatrix();
         glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
@@ -11,9 +11,6 @@ void Scene::draw_room(const GLuint *texture){
         // glRotatef(20, 0,1 ,0);
         glScalef(1.7f, 1.7f, 1.7f);
         // glutWireCube(4);
-
-        glEnable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D, *texture);
 
         glBegin(GL_QUADS);
             //top
@@ -64,28 +61,18 @@ void Scene::draw_room(const GLuint *texture){
 
         glEnd();
 
-        glDisable(GL_TEXTURE_2D);
 
     glPopMatrix();
 }
 
 
-void Scene::draw_teapot(const GLuint *texture, const GLdouble &size){
+void Scene::draw_teapot(const GLdouble &size){
     teapot_rotation += rotating_factor;
     glPushMatrix();
-        glEnable(GL_TEXTURE_2D);
-        glEnable(GL_TEXTURE_GEN_S);
-        glEnable(GL_TEXTURE_GEN_T);
-        glBindTexture(GL_TEXTURE_2D, *texture);
-        glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-        glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
         glTranslatef(0.7f, 0.f, 0.f);
-        glColor3f(1.f, .6f, 0.f);
+        // glColor3f(1.f, .6f, 0.f);
         glRotatef(teapot_rotation, 1, 1, 1);
         glutSolidTeapot(size);
-        glDisable(GL_TEXTURE_GEN_S);
-        glDisable(GL_TEXTURE_GEN_T);
-        glDisable(GL_TEXTURE_2D);
     glPopMatrix();
 }
 
@@ -108,7 +95,6 @@ Model::Model(const std::string &filename){
         vertexData.push_back(mesh.Vertices[vertex].Normal.Z);
     }
 
-    texture = Texture::LoadTexture("fur.jpg");
     
     // glGenVertexArrays(1, &VAO);
     // glGenBuffers(1, &VBO);
@@ -134,19 +120,10 @@ void Model::Draw(){
     glVertexPointer(3, GL_FLOAT, 6 * sizeof(GLfloat), vertexData.data());
     
     glPushMatrix();
-        glEnable(GL_TEXTURE_2D);
-        glEnable(GL_TEXTURE_GEN_S);
-        glEnable(GL_TEXTURE_GEN_T);
-        glBindTexture(GL_TEXTURE_2D, texture);
-        glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-        glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
         glScalef(.3f, .3f, .3f);
-        glColor3f(1,1,1);
+        // glColor3f(1,1,1);
         glRotatef(rotation, 1,1,1);
         glDrawArrays(GL_TRIANGLES, 0, vertexData.size() / 6);
-        glDisable(GL_TEXTURE_GEN_S);
-        glDisable(GL_TEXTURE_GEN_T);
-        glDisable(GL_TEXTURE_2D);
     glPopMatrix();
 
     glDisableClientState(GL_VERTEX_ARRAY);
