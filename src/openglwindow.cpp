@@ -12,6 +12,7 @@ Viewport::Viewport(QWidget *parent): QOpenGLWidget(parent), modelo("bunny.obj"){
 
     this -> create();
 
+    LightOn = true;
     connect(&this -> timer, SIGNAL(timeout()), this , SLOT(update()));
     timer.start(100ms);
     
@@ -26,6 +27,12 @@ Viewport::~Viewport(){
 
 void Viewport::initializeGL(){
     texture = Texture::LoadTexture("texture.bmp");
+
+    GLfloat LightAmbient[]= { 0.5f, 0.5f, 0.5f, 1.0f };
+    GLfloat LightPosition[]= { 2.0f, 0.0f, 2.0f, 1.0f };
+    /*Setting light values*/
+    glLightfv(GL_LIGHT0, GL_AMBIENT, LightAmbient);
+
     glClearColor(0.0,0.0,0.0,0.0);
     glClearDepth(1.f);
     glShadeModel(GL_SMOOTH);
@@ -37,6 +44,14 @@ void Viewport::initializeGL(){
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
     resizeGL(this -> width(), this -> height());
+    
+    glGenTextures(1, &texture);
+    glEnable(GL_TEXTURE_2D);
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
 
@@ -57,6 +72,12 @@ void Viewport::paintGL(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     gluLookAt(0,0,eyez, 0,0,0,  0,1,0);
+    
+    if (LightOn && !glIsEnabled(GL_LIGHT0))
+        glEnable(GL_LIGHT0);
+    else if(!LightOn)
+        glDisable(GL_LIGHT0);
+    
     Scene::draw_teapot();
     modelo.Draw();
     Scene::draw_room(&texture);
@@ -73,5 +94,12 @@ void Viewport::mouseMoveEvent(QMouseEvent *event){
 }
 
 void Viewport::keyPressEvent(QKeyEvent *event){
+    switch (event -> key()){
+    case Qt::Key_L:
+        LightOn = !LightOn;
+        break;
     
+    default:
+        break;
+    }
 }

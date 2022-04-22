@@ -49,5 +49,6 @@ private:
     Model modelo;
     GLdouble eyez = 5;
     GLuint texture;
+    bool LightOn;
 };
 
