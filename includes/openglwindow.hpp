@@ -23,8 +23,10 @@
 #endif
 #ifdef __APPLE__
     #include <OpenGL/glu.h>
+    constexpr int MOUSE_NORMALIZATION = 8;
 #else
     #include <GL/glu.h>
+    constexpr int MOUSE_NORMALIZATION = 100;
 #endif
 
 class Viewport : public QOpenGLWidget{
