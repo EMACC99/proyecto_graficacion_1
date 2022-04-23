@@ -19,7 +19,8 @@ Viewport::Viewport(QWidget *parent): QOpenGLWidget(parent), modelo("bunny.obj"){
 
 Viewport::~Viewport(){
     makeCurrent();
-    //delete
+    for (auto &[name, textID] : textureID)
+        glDeleteTextures(1, &textID);
     doneCurrent();
 
 }
@@ -70,8 +71,9 @@ void Viewport::paintGL(){
         glDisable(GL_LIGHT0);
     
     
+    glMaterialfv(GL_FRONT, GL_DIFFUSE,violet);
     Scene::draw_teapot();
-
+    glEnable(GL_TEXTURE_2D);
     glEnable(GL_TEXTURE_GEN_S);
     glEnable(GL_TEXTURE_GEN_T);
     glBindTexture(GL_TEXTURE_2D, textureID.at("fur"));
@@ -80,14 +82,17 @@ void Viewport::paintGL(){
     glDisable(GL_TEXTURE_GEN_T);
    
    
-    glBindTexture(GL_TEXTURE_2D, textureID.at("wall"));
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+    glBindTexture(GL_TEXTURE_2D, textureID.at("grass"));
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     Scene::draw_room();
+    glDisable(GL_TEXTURE_2D);
 }
 
 void Viewport::wheelEvent(QWheelEvent *event){
-    this -> eyez -= event -> angleDelta().y() / 100;
+    this -> eyez -= static_cast<GLfloat>(event -> angleDelta().y() / MOUSE_NORMALIZATION);
     // this -> resizeGL(this -> width(), this -> height());
     update();
 }
@@ -108,12 +113,11 @@ void Viewport::keyPressEvent(QKeyEvent *event){
 }
 
 void Viewport::initTextures(){
-    glEnable(GL_TEXTURE_2D);
 
-    int n = 2;
-    std::vector<std::string> files {"fur.jpg", "texture.bmp"};
+    int n = 3;
+    std::vector<std::string> files {"fur.png", "texture.bmp", "grass.png"};
 
-    std::string texture_names[] = {"fur", "wall"};
+    std::string texture_names[] = {"fur", "wall", "grass"};
 
     std::vector<GLuint> IDS(n);
 
