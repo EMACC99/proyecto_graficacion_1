@@ -6,7 +6,6 @@ float teapot_rotation = 0.f;
 void Scene::draw_room(){
     
     glPushMatrix();
-        glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
         glTranslatef(0.f,0,-.2f);
         // glRotatef(20, 0,1 ,0);
         glScalef(1.7f, 1.7f, 1.7f);
@@ -14,7 +13,9 @@ void Scene::draw_room(){
 
         glBegin(GL_QUADS);
             //top
-            glColor3f(  1.f,  1.f,  0.f);
+            // glColor3f(  1.f,  1.f,  0.f);
+            glMaterialfv( GL_FRONT, GL_DIFFUSE, grass_color);
+
             glTexCoord2f(0.0f,1.0f);
             glVertex3f( 1.0f, 1.0f,-1.0f);
             glTexCoord2f(0.0f,0.0f);
@@ -26,16 +27,18 @@ void Scene::draw_room(){
 
             //back
 
-            glColor3f(  .5f,  1.f,  0.f);
+            // glColor3f(  .5f,  1.f,  0.f);
             glTexCoord2f(1.0f,0.0f);
             glVertex3f( 1.f,  1.0f, -1.f);
             glTexCoord2f(1.0f,1.0f);
             glVertex3f(-1.f,  1.0f, -1.f);
+            glTexCoord2f(0.0f,1.0f);
             glVertex3f(-1.f, -1.0f, -1.f);
+            glTexCoord2f(0.0f,0.0f);
             glVertex3f( 1.f, -1.0f, -1.f);
 
             //floor
-            glColor3f(  1.f,  0.5f,  0.f);
+            // glColor3f(  1.f,  0.5f,  0.f);
             glTexCoord2f(0.0f,0.0f);
             glVertex3f( 1.0f,-1.0f, 1.0f);
             glTexCoord2f(1.0f,0.0f);
@@ -46,17 +49,25 @@ void Scene::draw_room(){
             glVertex3f( 1.0f,-1.0f,-1.0f);
             
             //left
-            glColor3f(  .5f,  1.f, 1.f);  
+            // glColor3f(  .5f,  1.f, 1.f);
+            glTexCoord2f(0.0f,0.0f);
             glVertex3f(-1.0f, 1.0f, 1.0f);
+            glTexCoord2f(1.0f,0.0f);
             glVertex3f(-1.0f, 1.0f,-1.0f);
+            glTexCoord2f(1.0f,1.0f);
             glVertex3f(-1.0f,-1.0f,-1.0f);
+            glTexCoord2f(0.0f,1.0f);
             glVertex3f(-1.0f,-1.0f, 1.0f);
 
             //right
-            glColor3f(  0.f,  0.5f, 1.f);
+            // glColor3f(  0.f,  0.5f, 1.f);
+            glTexCoord2f(1.0f,0.0f);
             glVertex3f( 1.0f, 1.0f,-1.0f);
+            glTexCoord2f(1.0f,1.0f);
             glVertex3f( 1.0f, 1.0f, 1.0f);
+            glTexCoord2f(0.0f,1.0f);
             glVertex3f( 1.0f,-1.0f, 1.0f);
+            glTexCoord2f(1.0f,1.0f);
             glVertex3f( 1.0f,-1.0f,-1.0f);
 
         glEnd();
