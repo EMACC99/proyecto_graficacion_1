@@ -11,7 +11,9 @@
 #include <sstream>
 
 namespace fs = std::filesystem;
-
+constexpr GLfloat violet [] = { 0.5f, 0, 1.f};
+constexpr GLfloat white[] = {1.f, 1.f, 1.f};
+constexpr GLfloat grass_color[] = {.77f, 1.f, .42f};
 #ifdef _WIN32
     #include <windows.h>
 #endif
