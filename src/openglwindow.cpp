@@ -70,16 +70,20 @@ void Viewport::paintGL(){
     else if(!LightOn)
         glDisable(GL_LIGHT0);
     
-    
-    glMaterialfv(GL_FRONT, GL_DIFFUSE,violet);
-    Scene::draw_teapot();
     glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_GEN_S);
+    glEnable(GL_TEXTURE_GEN_T);
+    glBindTexture(GL_TEXTURE_2D, textureID.at("wall"));
+    Scene::draw_teapot();
+    glDisable(GL_TEXTURE_GEN_T);
+    glDisable(GL_TEXTURE_GEN_T);
+
     glEnable(GL_TEXTURE_GEN_S);
     glEnable(GL_TEXTURE_GEN_T);
     glBindTexture(GL_TEXTURE_2D, textureID.at("fur"));
     modelo.Draw();
-    glDisable(GL_TEXTURE_GEN_S);
     glDisable(GL_TEXTURE_GEN_T);
+    glDisable(GL_TEXTURE_GEN_S);
    
    
     glBindTexture(GL_TEXTURE_2D, textureID.at("grass"));
@@ -87,7 +91,9 @@ void Viewport::paintGL(){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
     Scene::draw_room();
+
     glDisable(GL_TEXTURE_2D);
 }
 
