@@ -98,7 +98,7 @@ void Viewport::paintGL(){
 }
 
 void Viewport::wheelEvent(QWheelEvent *event){
-    this -> eyez -= static_cast<GLfloat>(event -> angleDelta().y() / MOUSE_NORMALIZATION);
+    this -> eyez -= static_cast<GLfloat>(event -> angleDelta().y()) / (MOUSE_NORMALIZATION);
     // this -> resizeGL(this -> width(), this -> height());
     update();
 }
