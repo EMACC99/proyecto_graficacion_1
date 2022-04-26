@@ -28,9 +28,12 @@ Viewport::~Viewport(){
 void Viewport::initializeGL(){
 
     GLfloat LightAmbient[]= { 0.5f, 0.5f, 0.5f, 1.0f };
-    GLfloat LightPosition[]= { 2.0f, 0.0f, 2.0f, 1.0f };
+    GLfloat LightDiffuse_blue[]= { 0.0f, 0.0f, 1.0f, 1.0f }; //azul
+    GLfloat LightDiffuse_red[] = {2.f, 0.0f, 0.0f, 1.0f};
+    GLfloat LightDiffuse_morado[] = {.49f, 0.f, 1.f, 1.f};
     /*Setting light values*/
     glLightfv(GL_LIGHT0, GL_AMBIENT, LightAmbient);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, LightDiffuse_morado);
 
     glClearColor(0.0,0.0,0.0,0.0);
     glClearDepth(1.f);
@@ -65,10 +68,14 @@ void Viewport::paintGL(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     gluLookAt(0,0,eyez, 0,0,0,  0,1,0);
-    if (LightOn && !glIsEnabled(GL_LIGHT0))
+    if (LightOn && !glIsEnabled(GL_LIGHT0)){
+        glDisable(GL_LIGHT1);
         glEnable(GL_LIGHT0);
-    else if(!LightOn)
+    }
+    else if(!LightOn){
         glDisable(GL_LIGHT0);
+        glEnable(GL_LIGHT1);
+    }
     
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_TEXTURE_GEN_S);
@@ -86,12 +93,12 @@ void Viewport::paintGL(){
     glDisable(GL_TEXTURE_GEN_S);
    
    
-    glBindTexture(GL_TEXTURE_2D, textureID.at("grass"));
+    glBindTexture(GL_TEXTURE_2D, textureID.at("wall"));
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     Scene::draw_room();
 
     glDisable(GL_TEXTURE_2D);
@@ -99,7 +106,7 @@ void Viewport::paintGL(){
 
 void Viewport::wheelEvent(QWheelEvent *event){
     this -> eyez -= static_cast<GLfloat>(event -> angleDelta().y()) / (MOUSE_NORMALIZATION);
-    // this -> resizeGL(this -> width(), this -> height());
+
     update();
 }
 
@@ -112,7 +119,7 @@ void Viewport::keyPressEvent(QKeyEvent *event){
     case Qt::Key_L:
         LightOn = !LightOn;
         break;
-    
+
     default:
         break;
     }
