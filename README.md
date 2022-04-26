@@ -24,8 +24,9 @@ make
 ## Instrucciones de uso
 
 Para prender o apagar la luz, presione la tecla `L`.
-
+![luz](Images/light_on_off.gif)
 Mueva la rueda del mouse para hacer zoom en la escena.
+![zoom](Images/camera_zoom.gif)
 
 ## Ventajas y otras notas
 
