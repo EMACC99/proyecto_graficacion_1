@@ -22,7 +22,11 @@ class Scene{
 
 public: 
     static void draw_room();
-    static void draw_teapot(const GLdouble &size = 0.5);
+    static void draw_teapot(const GLdouble &size = 0.5f);
+    static void draw_donut(const GLdouble &innerRadius = 0.2f,
+                           const GLdouble &outerRadius = 0.4f,
+                           const GLint &sides = 10,
+                           const GLint &rings = 50);
 };
 
 class Model{
