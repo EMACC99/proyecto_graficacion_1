@@ -2,7 +2,7 @@
 #include "includes/utils.hpp"
 #include "OBJ-Loader/Source/OBJ_Loader.h"
 float teapot_rotation = 0.f;
-
+float torus_rotation = 0.f;
 void Scene::draw_room(){
     
     glPushMatrix();
@@ -94,8 +94,10 @@ void Scene::draw_teapot(const GLdouble &size){
 
 
 void Scene::draw_donut(const GLdouble &innerRadius, const GLdouble &outerRadius, const GLint &sides, const GLint &rings){
+    torus_rotation += rotating_factor;
     glPushMatrix();
         glTranslatef(1.1f, -1.f, -0.3f);
+        glRotatef(torus_rotation, 3, 0, 0);
         glColor3f(2.f, .2f, 1.98f);
         glutSolidTorus(innerRadius, outerRadius, sides, rings);
     glPopMatrix();
