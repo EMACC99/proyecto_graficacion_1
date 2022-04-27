@@ -11,7 +11,7 @@ Librerias Necesarias:
 * qmake
 * make
 
-Para clonar el proyecto, haganlo con `git clone --recursive` para que los submodulos se clonen tambien.
+Para clonar el proyecto, hagalo con `git clone --recursive` para que los submodulos se inicialicen correctamente.
 
 ## Compliacion
 
@@ -23,10 +23,10 @@ make
 
 ## Instrucciones de uso
 
-Para prender o apagar la luz, presione la tecla `L`.
-![luz](Images/light_on_off.gif)
+Para cambiar la iluminacion, presione la tecla `L`.
+![luz](Images/Luz.gif)
 Mueva la rueda del mouse para hacer zoom en la escena.
-![zoom](Images/camera_zoom.gif)
+![zoom](Images/zoom.gif)
 
 ## Ventajas y otras notas
 
