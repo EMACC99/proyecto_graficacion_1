@@ -85,7 +85,7 @@ void Scene::draw_teapot(const GLdouble &size){
     teapot_rotation += rotating_factor;
     glPushMatrix();
         // glMaterialfv(GL_FRONT, GL_DIFFUSE,violet);
-        glTranslatef(0.7f, 0.f, 0.f);
+        glTranslatef(0.7f, 0.7f, 0.f);
         glColor3f(1.f, .6f, 0.f);
         glRotatef(teapot_rotation, 1, 1, 1);
         glutSolidTeapot(size);
@@ -93,6 +93,13 @@ void Scene::draw_teapot(const GLdouble &size){
 }
 
 
+void Scene::draw_donut(const GLdouble &innerRadius, const GLdouble &outerRadius, const GLint &sides, const GLint &rings){
+    glPushMatrix();
+        glTranslatef(1.1f, -1.f, -0.3f);
+        glColor3f(2.f, .2f, 1.98f);
+        glutSolidTorus(innerRadius, outerRadius, sides, rings);
+    glPopMatrix();
+}
 
 Model::Model(const std::string &filename){
     fs::path path = "assets/" + filename;
@@ -137,6 +144,7 @@ void Model::Draw(){
     
     glPushMatrix();
         glScalef(.3f, .3f, .3f);
+        glTranslatef(-.7f, 0, 0);
         glColor3f(1,1,1);
         glRotatef(rotation, 1,1,1);
         glDrawArrays(GL_TRIANGLES, 0, vertexData.size() / 6);
