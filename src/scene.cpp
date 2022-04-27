@@ -16,11 +16,11 @@ void Scene::draw_room(){
             glColor3f(  1.f,  1.f,  0.f);
             // glMaterialfv( GL_FRONT, GL_DIFFUSE, grass_color);
 
-            glTexCoord2f(0.0f,1.0f);
-            glVertex3f( 1.0f, 1.0f,-1.0f);
             glTexCoord2f(0.0f,0.0f);
-            glVertex3f(-1.0f, 1.0f,-1.0f);
+            glVertex3f( 1.0f, 1.0f,-1.0f);
             glTexCoord2f(1.0f,0.0f);
+            glVertex3f(-1.0f, 1.0f,-1.0f);
+            glTexCoord2f(1.0f,1.0f);
             glVertex3f(-1.0f, 1.0f, 1.0f);
             glTexCoord2f(0.0f,1.0f);
             glVertex3f( 1.0f, 1.0f, 1.0f);
@@ -45,9 +45,9 @@ void Scene::draw_room(){
             glVertex3f( 1.0f,-1.0f, 1.0f);
             glTexCoord2f(1.0f,0.0f);
             glVertex3f(-1.0f,-1.0f, 1.0f);
-            glTexCoord2f(1.5f,0.0f);
+            glTexCoord2f(1.f,1.0f);
             glVertex3f(-1.0f,-1.0f,-1.0f);
-            glTexCoord2f(1.5f,1.5f);
+            glTexCoord2f(0.f,1.f);
             glVertex3f( 1.0f,-1.0f,-1.0f);
             
             //left
@@ -65,13 +65,13 @@ void Scene::draw_room(){
             //right
             glColor3f(  0.f,  0.5f, 1.f);
             // glMaterialfv( GL_FRONT, GL_DIFFUSE, grass_color);
-            glTexCoord2f(1.0f,0.0f);
+            glTexCoord2f(0.0f,0.0f);
             glVertex3f( 1.0f, 1.0f,-1.0f);
-            glTexCoord2f(1.0f,1.0f);
+            glTexCoord2f(1.0f,0.0f);
             glVertex3f( 1.0f, 1.0f, 1.0f);
-            glTexCoord2f(0.0f,1.0f);
-            glVertex3f( 1.0f,-1.0f, 1.0f);
             glTexCoord2f(1.0f,1.0f);
+            glVertex3f( 1.0f,-1.0f, 1.0f);
+            glTexCoord2f(0.0f,1.0f);
             glVertex3f( 1.0f,-1.0f,-1.0f);
 
         glEnd();
