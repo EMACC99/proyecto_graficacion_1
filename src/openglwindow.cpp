@@ -80,7 +80,7 @@ void Viewport::paintGL(){
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_TEXTURE_GEN_S);
     glEnable(GL_TEXTURE_GEN_T);
-    glBindTexture(GL_TEXTURE_2D, textureID.at("wall"));
+    glBindTexture(GL_TEXTURE_2D, textureID.at("texture"));
     Scene::draw_teapot();
     glDisable(GL_TEXTURE_GEN_T);
     glDisable(GL_TEXTURE_GEN_T);
@@ -100,6 +100,7 @@ void Viewport::paintGL(){
     // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     // glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     Scene::draw_room();
+    Scene::draw_donut();
 
     glDisable(GL_TEXTURE_2D);
 }
@@ -128,9 +129,9 @@ void Viewport::keyPressEvent(QKeyEvent *event){
 void Viewport::initTextures(){
 
     int n = 3;
-    std::vector<std::string> files {"fur.png", "texture.bmp", "grass.png"};
+    std::vector<std::string> files {"fur.png", "texture.bmp", "wall.png"};
 
-    std::string texture_names[] = {"fur", "wall", "grass"};
+    std::string texture_names[] = {"fur", "texture", "wall"};
 
     std::vector<GLuint> IDS(n);
 
