@@ -3,7 +3,7 @@
 #include "includes/utils.hpp"
 using namespace std::chrono_literals;
 
-Viewport::Viewport(QWidget *parent): QOpenGLWidget(parent), modelo("bunny.obj"){
+Viewport::Viewport(QWidget *parent): QOpenGLWidget(parent){
     this -> setUpdateBehavior(QOpenGLWidget::NoPartialUpdate);
     QSurfaceFormat format;
     format.setProfile(QSurfaceFormat::CompatibilityProfile);
@@ -45,6 +45,7 @@ void Viewport::initializeGL(){
     glEnable(GL_COLOR_MATERIAL);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     initTextures();
+    initModels();
 
     resizeGL(this -> width(), this -> height());
     
@@ -88,7 +89,7 @@ void Viewport::paintGL(){
     glEnable(GL_TEXTURE_GEN_S);
     glEnable(GL_TEXTURE_GEN_T);
     glBindTexture(GL_TEXTURE_2D, textureID.at("fur"));
-    modelo.Draw();
+    modelos[model_index].Draw();
     glDisable(GL_TEXTURE_GEN_T);
     glDisable(GL_TEXTURE_GEN_S);
    
@@ -112,13 +113,25 @@ void Viewport::wheelEvent(QWheelEvent *event){
 }
 
 void Viewport::mouseMoveEvent(QMouseEvent *event){
-    
+
 }
 
 void Viewport::keyPressEvent(QKeyEvent *event){
     switch (event -> key()){
     case Qt::Key_L:
         LightOn = !LightOn;
+        break;
+
+    case Qt::Key_1:
+        model_index = 0;
+        break;
+    
+    case Qt::Key_2:
+        model_index = 1;
+        break;
+    
+    case Qt::Key_3:
+        model_index = 2;
         break;
 
     default:
@@ -147,6 +160,18 @@ void Viewport::initTextures(){
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, textureData);
         glBindTexture(GL_TEXTURE_2D, 0);
         Texture::FreeTextureData(textureData);
+        
+    }
+}
+
+
+void Viewport::initModels(){
+    int n = 3;
+    std::vector<std::string> files {"bunny.obj", "dragon.obj", "tyra.obj"};
+
+    for (int i = 0; i < n; ++i){
+        Model model(files[i]);
+        modelos.emplace_back(model);
         
     }
 }

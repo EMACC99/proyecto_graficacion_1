@@ -40,7 +40,8 @@ protected:
     virtual void initializeGL();
     virtual void resizeGL(int w, int h);
     virtual void paintGL();
-    virtual void initTextures();
+    void initTextures();
+    void initModels();
     // virtual void update();
     
     void wheelEvent(QWheelEvent *event);
@@ -50,7 +51,8 @@ protected:
 private:
     QTimer timer;
     QOpenGLFunctions *gl;
-    Model modelo;
+    std::vector<Model> modelos;
+    unsigned short model_index = 0;
     GLdouble eyez = 5;
     std::unordered_map<std::string ,GLuint> textureID;
     bool LightOn;
