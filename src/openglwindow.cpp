@@ -172,6 +172,5 @@ void Viewport::initModels(){
     for (int i = 0; i < n; ++i){
         Model model(files[i]);
         modelos.emplace_back(model);
-        
     }
 }
