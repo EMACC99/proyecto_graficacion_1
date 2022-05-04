@@ -42,7 +42,6 @@ protected:
     virtual void paintGL();
     void initTextures();
     void initModels();
-    // virtual void update();
     
     void wheelEvent(QWheelEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
