@@ -1,4 +1,8 @@
-QT+= core gui opengl widgets 
+QT+= core gui opengl widgets
+
+equals(QT_MAJOR_VERSION, 6){
+        QT += openglwidgets
+}
 
 SOURCES += \
     src/main.cpp\
@@ -17,11 +21,11 @@ QMAKE_CXXFLAGS+= -std=c++17 -g -Wno-deprecated-declarations -Wall -Wpedantic -We
 
 RC_ICONS = assets/monachina.ico
 
-CONFIG += debug
+#CONFIG += debug
+CONFIG += release
 
 # make a mac debug build instead of an .app
 CONFIG -= app_bundle
-#CONFIG += release
 #QMAKE_CXXFLAGS_RELEASE -= -O2
 #QMAKE_CXXFLAGS_RELEASE += -Os
 MOC_DIR = tmp/moc/
